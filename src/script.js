@@ -22,7 +22,31 @@ function displayProducts(filteredProducts) {
         productList.innerHTML = '<p>Nenhum produto foi encontrado...</p>'
     } 
 
-    filteredProducts.forEach((products) => {
+    filteredProducts.forEach((product) => {
+        const productElement = document.createElement('div')
+        
+        productElement.className('product')
 
+        productElement.innerHTML = `
+        <img src="${product.image}" alt="${product.title}"/>
+        <div class="product-description">
+            <strong>${product.title}</strong>
+            <p>Categoria: ${product.category}</p>
+            <p>Preço: $ ${product.price}</p>
+        </div>
+        `
+
+        productList.appendChild(productElement)
     })
 }
+
+filterInput.addEventListener('input', () => {
+    const searchTerm = filterInput.toLowerCase()
+    const filtered = products.filter((product) => {
+        product.title.toLowerCase().includes(searchTerm) || 
+        product.category.toLowerCase().includes(searchTerm)
+    })
+    displayProducts(filtered)
+})
+
+fetchProducts()
